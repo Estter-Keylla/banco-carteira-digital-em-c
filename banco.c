@@ -392,7 +392,8 @@ void solicitarEmprestimo(Banco *banco) {
         printf("Cliente ja realizou um emprestimo.\n");
         return;
     }
-
+// contas[2] é um elemento direto do array, não um ponteiro.
+    
     if (!cliente->possui[0] || !cliente->possui[2] ||
         cliente->contas[2].saldo <= 0) {
         printf("Necessario ter conta corrente e "
@@ -402,6 +403,7 @@ void solicitarEmprestimo(Banco *banco) {
 
     double limite = saldoTotal(cliente) * 10 * 0.25;
 
+//se o cliente não tiver saldo suficiente para gerar limite
     if (limite <= 0) {
         printf("Limite indisponivel.\n");
         return;
@@ -418,8 +420,8 @@ void solicitarEmprestimo(Banco *banco) {
 
     Conta *corrente = &cliente->contas[0];
     corrente->saldo += valor;
-    cliente->emprestimoFeito = 1;
-
+    cliente->emprestimoFeito = 1; 
+//1 significa verdadeiro)
     char texto[100];
     snprintf(texto, sizeof(texto),
              "Emprestimo de R$ %.2f", valor);
@@ -449,7 +451,7 @@ void comprarTitulo(Banco *banco) {
         printf("Saldo deve estar entre R$ 1000 e R$ 1500.\n");
         return;
     }
-
+//  cliente agora possui um título (1).
     cliente->titulo = 1;
     registrar(conta, "Aquisicao de titulo");
 
@@ -477,7 +479,7 @@ void consultarHistorico(Banco *banco) {
         printf("Abra o banco primeiro.\n");
         return;
     }
-
+//calcula e exibe o saldo somado de todos os clientes de um banco.
     double total = 0;
 
     for (int i = 0; i < banco->quantidade; i++)
@@ -502,10 +504,9 @@ void consultarHistorico(Banco *banco) {
     }
 
     printf("\n== CONTAS COM SALDO NEGATIVO ==\n");
-
+//Número base da conta
     for (int i = 0; i < banco->quantidade; i++) {
         Cliente *c = &banco->clientes[i];
-
         for (int j = 0; j < 3; j++) {
             if (c->possui[j] && c->contas[j].saldo < 0) {
                 printf("%s | %04d-%02d | R$ %.2f\n",
@@ -529,7 +530,7 @@ void consultarHistorico(Banco *banco) {
                    c->contas[1].saldo);
         }
     }
-
+//Caso tenha recebido, exibimos seus dados e utilizamos o break para evitar informações duplicadas.
     printf("\n== CONTEMPLADOS NO SORTEIO ==\n");
 
     for (int i = 0; i < banco->quantidade; i++) {
@@ -562,6 +563,7 @@ void consultarHistorico(Banco *banco) {
 
             for (int k = 0; k < conta->qtdHistorico; k++)
                 printf("%s\n", conta->historico[k]);
+//k representa a posição de cada registro na matriz.
         }
     }
 }
@@ -588,7 +590,8 @@ void sortear(Banco *banco) {
     }
 
     for (int i = 0; i < banco->quantidade; i++)
-        indices[i] = i;
+        indices[i] = i; 
+       // preencher o vetor indices com as posições dos clientes cadastrados.
 
     // Ordena os clientes pelo saldo total
     for (int i = 0; i < banco->quantidade - 1; i++) {
@@ -598,6 +601,7 @@ void sortear(Banco *banco) {
                 int temp = indices[i];
                 indices[i] = indices[j];
                 indices[j] = temp;
+  // para no penúltimo porque, quando todos os anteriores estiverem no lugar certo, o último já estará automaticamente ordenado.
             }
         }
     }
@@ -613,7 +617,7 @@ void sortear(Banco *banco) {
     }
 
     // Fibonacci: gera um indice de 0 a 4
-    unsigned long long a = 0, b = 1;
+    unsigned long long a = 0, b = 1; // espaço na memória para não estourarem o limite da variável.
 
     int passos = (int)(time(NULL) % 20) + 1;
 
