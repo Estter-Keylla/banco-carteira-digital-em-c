@@ -182,8 +182,8 @@ void cadastrarCliente(Banco *banco) {
 
     Cliente *cliente = &banco->clientes[banco->quantidade];
 
-    memset(cliente, 0, sizeof(Cliente));
-    strcpy(cliente->nome, nome);
+    memset(cliente, 0, sizeof(Cliente)); //preenche todo o espaço de memória da variável cliente com zeros, limpando qualquer "lixo" de memória antes de você começar a usá-la.
+    strcpy(cliente->nome, nome); //Copia o conteúdo da string nome para o campo nome do cliente.
 
     banco->quantidade++;
 
@@ -219,12 +219,13 @@ void criarConta(Banco *banco) {
 
     memset(conta, 0, sizeof(Conta));
 
+//Pega o próximo número disponível no banco e dá para essa conta. O ++ no final avisa o banco para somar +1 logo depois, garantindo que o próximo cliente receba um número novo.
     conta->numero = banco->proximoNumero++;
     conta->tipo = tipo;
     conta->saldo = 0;
     conta->abertura = time(NULL);
 
-    cliente->possui[tipo - 1] = 1;
+    cliente->possui[tipo - 1] = 1; //Vai naquela gaveta de controle (possui) e coloca o número 1
 
     registrar(conta, "Abertura da conta");
 
@@ -250,7 +251,7 @@ void depositar(Banco *banco) {
     conta->saldo += valor;
 
     char texto[100];
-    snprintf(texto, sizeof(texto),
+    snprintf(texto, sizeof(texto), //escreve o texto formatado dentro da variável texto.
              "Deposito de R$ %.2f", valor);
     registrar(conta, texto);
 
@@ -279,7 +280,7 @@ void sacar(Banco *banco) {
         return;
     }
 
-    conta->saldo -= valor;
+    conta->saldo -= valor; //Subtrai o valor do saque diretamente do saldo da conta
 
     char texto[100];
     snprintf(texto, sizeof(texto),
