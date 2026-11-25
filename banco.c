@@ -294,7 +294,7 @@ void sacar(Banco *banco) {
         printf("ALERTA: conta corrente negativa!\n");
 }
 
-// Transfere entre contas
+// Transfere entre contas - busca o cliente de origem com buscarCliente(banco). Se retornar NULL, encerra a função.
 void transferir(Banco *banco) {
     printf("\nCONTA DE ORIGEM\n");
     Cliente *origem = buscarCliente(banco);
@@ -326,8 +326,8 @@ void transferir(Banco *banco) {
     contaDestino->saldo += valor;
 
     char texto[100];
-
-    snprintf(texto, sizeof(texto),
+// Montar e guardar um texto formatado dentro de uma variável (string)
+    snprintf(texto, sizeof(texto), 
              "Transferencia enviada: R$ %.2f", valor);
     registrar(contaOrigem, texto);
 
@@ -347,7 +347,7 @@ void consultarSaldo(Banco *banco) {
 
     for (int i = 0; i < 3; i++) {
         if (cliente->possui[i]) {
-            Conta *conta = &cliente->contas[i];
+            Conta *conta = &cliente->contas[i]; //  ponteiro de atalho apontando diretamente para o endereço de memória
 
             printf("Conta %04d-%02d | Saldo: R$ %.2f\n",
                    conta->numero, conta->tipo, conta->saldo);
