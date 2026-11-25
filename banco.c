@@ -8,10 +8,11 @@ void limparTela(void) {
 int lerInteiro(const char *mensagem) {
     char linha[100], extra;
     int valor;
-
+//while(1) cria uma repetição contínua
     while (1) {
         printf("%s", mensagem);
-
+        
+        
         if (!fgets(linha, sizeof(linha), stdin))
             exit(EXIT_FAILURE);
 
@@ -32,7 +33,7 @@ double lerValor(const char *mensagem) {
 
         if (!fgets(linha, sizeof(linha), stdin))
             exit(EXIT_FAILURE);
-
+// l e extrai dados formatados a partir de uma string / sscanf
         if (sscanf(linha, " %lf %c", &valor, &extra) == 1 &&
             valor >= 0 && valor <= 1000000000.0)
             return valor;
@@ -87,7 +88,7 @@ void liberarMemoria(Banco *banco) {
 
 // Registra uma operacao com data e hora
 void registrar(Conta *conta, const char *texto) {
-    time_t agora = time(NULL);
+    time_ttime_t agora = time(NULL);
     char data[30] = "Data indisponivel";
     struct tm *info = localtime(&agora);
 
@@ -112,10 +113,10 @@ static Cliente *buscarCliente(Banco *banco) {
     char nome[80];
 
     printf("Nome do cliente: ");
-    if (!fgets(nome, sizeof(nome), stdin))
+    if (!fgets(nome, sizeof(nome), stdin)) //ler o nome digitado pelo usuário e verificar se ocorreu alguma falha durante a leitura.
         return NULL;
 
-    nome[strcspn(nome, "\n")] = '\0';
+    nome[strcspn(nome, "\n")] = '\0'; //remover a quebra de linha
 
     for (int i = 0; i < banco->quantidade; i++) {
         if (strcmp(banco->clientes[i].nome, nome) == 0)
