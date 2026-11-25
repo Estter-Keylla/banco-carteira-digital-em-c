@@ -164,18 +164,20 @@ void cadastrarCliente(Banco *banco) {
     char nome[80];
 
     printf("Nome do novo cliente: ");
-    if (!fgets(nome, sizeof(nome), stdin))
+    if (!fgets(nome, sizeof(nome), stdin))//verifica se falhou
         return;
 
+//calcula o tamanho do segmento inicial de uma string que não contém nenhum caractere de um segundo conjunto de caracteres.
+//retorna o tamanho da string (a posição do terminador atual).
     nome[strcspn(nome, "\n")] = '\0';
-
+//calcula o tamanho de uma string
     if (strlen(nome) == 0) {
         printf("Nome nao pode ser vazio.\n");
         return;
     }
 
     for (int i = 0; i < banco->quantidade; i++) {
-        if (strcmp(banco->clientes[i].nome, nome) == 0) {
+        if (strcmpstrcmp(banco->clientes[i].nome, nome) == 0) {
             printf("Cliente ja cadastrado.\n");
             return;
         }
